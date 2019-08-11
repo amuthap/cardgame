@@ -1,7 +1,9 @@
-
 import React from 'react';
+import './cards.js'
 
-class Show_card_board extends React.Component {
+
+
+export class Show_card_board extends React.Component {
 	onclick(id){
 		if(this.isActive(id)){
 			if(id=="c1")

@@ -1,12 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import React from "react";
+import { render } from "react-dom";
+import { Client } from "boardgame.io/react";
+import { ShowCard } from "./game";
+import { Show_card_board } from "./board";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const ShowCardClient = Client({
+  game: ShowCard,
+  board: Show_card_board,
+  multiplayer: { local: true }
+});
+
+const App = () => (
+  <div>
+    Player 0
+    <ShowCardClient playerID="0" />
+    <br />
+    Player 1
+    <ShowCardClient playerID="1" />
+  </div>
+);
+
+render(<App />, document.getElementById("root"));

@@ -14,6 +14,7 @@ export class Show_card_board extends React.Component {
 				this.props.moves.getOpencard();
 			else {
 				this.props.moves.playCard(id);
+
 			}
 		}
 	}

@@ -5,6 +5,7 @@
   "dependencies": {
     "boardgame.io": "^0.32.1",
     "cardsJS": "^1.1.1",
+    "esm": "^3.2.25",
     "jquery": "^3.4.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",

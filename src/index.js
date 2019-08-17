@@ -10,7 +10,7 @@ import { Game, PlayerView } from 'boardgame.io/core';
 const ShowCardClient = Client({
   game: ShowCard,
   board: Show_card_board,
-  playerView: PlayerView.STRIP_SECRETS,
+ // playerView: PlayerView.STRIP_SECRETS,
   multiplayer: {  server: 'localhost:8000' }
 });
 /*
@@ -46,6 +46,7 @@ class App extends React.Component {
     }
     return (
       <div>
+
         <ShowCardClient playerID={this.state.playerID} />
       </div>
     );

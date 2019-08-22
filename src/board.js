@@ -7,7 +7,7 @@ export function getPlayerID(ctx) {
 }
 
 
-export class Show_card_board extends React.Component {
+class Show_card_board extends React.Component {
 	onclick(id){
 		let temp_card=this.props.G.temp;
 		if(this.isActive(id)){
@@ -80,3 +80,4 @@ export class Show_card_board extends React.Component {
 		
 	}
 }
+export default Show_card_board;

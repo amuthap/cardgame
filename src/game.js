@@ -100,3 +100,5 @@ export const ShowCard = Game({
 
   },
 });
+
+export default ShowCard;

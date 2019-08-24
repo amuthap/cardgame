@@ -6,7 +6,7 @@ import cors from '@koa/cors';
 import koaBody from 'koa-body';
 //import { getTypeString } from './utils';
 import { getDatabase } from './config';
-//import request from 'superagent';
+import request from 'superagent';
 import uuidv4 from 'uuid/v4';
 import { SERVER_PORT, API_PORT, INTERNAL_API_PORT } from './constants';
 

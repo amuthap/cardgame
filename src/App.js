@@ -9,7 +9,7 @@ const url = window.location.protocol+'//'+window.location.hostname+(window.locat
 const ShowCard = Client({
   game: showGame,
   board: Show_card_board,
-  debug: false,
+ // debug: false,
   multiplayer: {
     server: (process.env.NODE_ENV === 'production') ? `${url}` : `${window.location.hostname}:${SERVER_PORT}`
   },

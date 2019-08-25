@@ -27,24 +27,35 @@ function arrayRemove(arr, val) {
 	
 	return(a1.concat(a2));
 }
-function sum_hand(arr){
-	let arrSum;
-	return arrSum = function(arr){
-		return arr.reduce(function(a,b){
-		  return a + b
-		}, 0);
-	  }
+function sum_hand(cardVals,arr){
+	let arrSum=0,item;
+	for (item of arr){
+		let val = cardVals[item];
+		val = val.substring(0, val.length - 1);
+		if (val=="A"){val = 1;}
+		if (val=="J"){val = 10;}
+		if (val=="Q"){val = 10;}
+		if (val=="K"){val = 10;}
+		val = parseInt(val);
+		arrSum+=val;
+	}
+	return arrSum;
 }
+function min(input) {
+	if (toString.call(input) !== "[object Array]")  
+	  return false;
+ return Math.min.apply(null, input);
+   }
 
 export function getInitialstate(ctx){
 	const G = { deck_back: "cards/Red_Back.svg" ,deck : ['AS','KS','QS','JS','10S','9S','8S','7S','6S','5S','4S','3S','2S','AC','KC','QC','JC','10C','9C','8C','7C','6C','5C','4C','3C','2C','AD','KD','QD','JD','10D','9D','8D','7D','6D','5D','4D','3D','2D','AH','KH','QH','JH','10H','9H','8H','7H','6H','5H','4H','3H','2H'
- ],deck_cards: 51, open_cards: 0,open_deck:[], no_of_hands : ctx.numPlayers,hand : [],temp:52,players:{'0':{hand:[],count:0},'1':{hand:[],count:0},'2':{hand:[],count:0},'3':{hand:[],count:0},'4':{hand:[],count:0},'5':{hand:[],count:0}}};
+ ],deck_cards: 51, open_cards: 0,open_deck:[],roundWinner:-1,sum_arr:[],x:0, no_of_hands : ctx.numPlayers,hand : [],temp:52,players:{'0':{hand:[],count:0},'1':{hand:[],count:0},'2':{hand:[],count:0},'3':{hand:[],count:0},'4':{hand:[],count:0},'5':{hand:[],count:0}}};
 	 shuffleArray(G.deck);
 	  G.open_deck[G.open_cards]=G.deck_cards;
       G.deck_cards--;
 	  G.open_cards++;
 	  for(let j=0;j < G.no_of_hands;j++){
-	  for(let i=0;i<5;i++){
+	  for(let i=0;i<3;i++){
 		G.players[j].hand[G.players[j].count]=G.deck_cards;
 		G.deck_cards--;
 		G.players[j].count++;
@@ -96,16 +107,21 @@ export const ShowCard = Game({
 
 	},
 	endgame(G,playerid){
-		let sum_arr;
+		let sum_arr=[],arr=[];
 		for(let i=0;i<G.no_of_hands;i++){
-			var obj = {};
-			obj["01"] = i;
-			obj["02"] =  sum_hand(G.players[i].hand);
-			sum_arr.push( obj);
+			
+			G.x=sum_hand(G.deck,G.players[i].hand);
+			G.sum_arr[i]= G.x;
 		}
-		let winners_in_order;
+		let LowScore=min(G.sum_arr);
+		let LowScorePlayer=G.sum_arr.indexOf(LowScore);
+	//	if(LowScorePlayer==playerid){
 
-		sum_hand();
+			G.roundWinner=LowScorePlayer;
+	//	}
+		
+		
+		
 	},
 	
 	

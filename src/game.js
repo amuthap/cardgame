@@ -27,10 +27,10 @@ function arrayRemove(arr, val) {
 	
 	return(a1.concat(a2));
 }
-function sum_hand(cardVals,arr){
+function sum_hand(arr){
 	let arrSum=0,item;
 	for (item of arr){
-		let val = cardVals[item];
+		let val = item;
 		val = val.substring(0, val.length - 1);
 		if (val=="A"){val = 1;}
 		if (val=="J"){val = 10;}
@@ -49,24 +49,27 @@ function min(input) {
 
 export function getInitialstate(ctx){
 	const G = { deck_back: "cards/Red_Back.svg" ,deck : ['AS','KS','QS','JS','10S','9S','8S','7S','6S','5S','4S','3S','2S','AC','KC','QC','JC','10C','9C','8C','7C','6C','5C','4C','3C','2C','AD','KD','QD','JD','10D','9D','8D','7D','6D','5D','4D','3D','2D','AH','KH','QH','JH','10H','9H','8H','7H','6H','5H','4H','3H','2H'
- ],deck_cards: 51, open_cards: 0,open_deck:[],roundWinner:-1,sum_arr:[],x:0, no_of_hands : ctx.numPlayers,hand : [],temp:52,players:{'0':{hand:[],count:0},'1':{hand:[],count:0},'2':{hand:[],count:0},'3':{hand:[],count:0},'4':{hand:[],count:0},'5':{hand:[],count:0}}};
+ ],deck_cards: 51, open_cards: 0,open_deck:[],closed_deck:[],drawCardDismiss :0, roundWinner:-1,sum_arr:[],x:0, no_of_hands : ctx.numPlayers,hand : [],temp:52,players:{'0':{hand:[],count:0},'1':{hand:[],count:0},'2':{hand:[],count:0},'3':{hand:[],count:0},'4':{hand:[],count:0},'5':{hand:[],count:0}}};
 	 shuffleArray(G.deck);
-	  G.open_deck[G.open_cards]=G.deck_cards;
+	  G.closed_deck=G.deck;
+	  G.open_deck[G.open_cards]=G.deck[G.deck_cards];
       G.deck_cards--;
 	  G.open_cards++;
 	  for(let j=0;j < G.no_of_hands;j++){
 	  for(let i=0;i<3;i++){
-		G.players[j].hand[G.players[j].count]=G.deck_cards;
+		G.players[j].hand[G.players[j].count]=G.deck[G.deck_cards];
 		G.deck_cards--;
 		G.players[j].count++;
-	  }}
+	  }
+	}
+
 	  return G;
 }
 
 export const ShowCard = Game({
   setup: getInitialstate,
   moves: {
-  deal:G => {
+  /*deal:G => {
 	  shuffleArray(G.deck);
 	  G.open_deck[G.open_cards]=G.deck_cards;
       G.deck_cards--;
@@ -79,23 +82,49 @@ export const ShowCard = Game({
 	  }
 	  }
 	
-	},
+  },*/
     drawCard(G,ctx,playerid) {
-	  G.players[playerid].hand[G.players[playerid].count]=G.deck_cards;
-      G.deck_cards--;
-      G.players[playerid].count++;	
-	    G.open_deck[G.open_cards]=G.temp;
-		 G.open_cards++;
-		 G.temp=52;
+		if(G.drawCardDismiss==0){
+	 		G.players[playerid].hand[G.players[playerid].count]=G.closed_deck[G.deck_cards];
+      		G.deck_cards--;
+			 G.players[playerid].count++;				 
+		}
+	    	G.open_deck[G.open_cards]=G.temp;
+		 	G.open_cards++;
+			 G.temp=52;
+			 G.drawCardDismiss=0;
+			// close the opened cards once the closed deck is finished
+			if(G.deck_cards==0){
+				let tempx=G.open_deck.pop();
+				G.closed_deck=G.open_deck;
+				shuffleArray(G.closed_deck)
+				G.open_deck[0]=tempx;
+				G.open_cards=1;
+			}
+		//}
+	//	else if (G.drawCardDismiss==1){
+		//	this.events.endturn();
+	//	}		
     },
     playCard(G,ctx,n,playerid) {
 		
 
 	  G.temp=n;
       G.players[playerid].hand=arrayRemove(G.players[playerid].hand,n); 
-      G.players[playerid].count--;
+	  G.players[playerid].count--;
+
+	  let val1 = n.substring(0, n.length - 1);
+	  let val2 = G.open_deck[G.open_cards-1];
+	  let val3 = val2.substring(0,val2.length- 1);
+
+	  if (val1 == val3){
+		G.drawCardDismiss = 1;
+	  }
+	  if (val1 == val3 && G.players[playerid].count == 0)
+	  	G.endgame(G,playerid);
 	 
-    },
+	},
+	
     getOpencard(G,ctx,playerid){
 	  G.players[playerid].hand[G.players[playerid].count]=G.open_deck[G.open_cards-1];
       G.players[playerid].count++;	
@@ -110,7 +139,7 @@ export const ShowCard = Game({
 		let sum_arr=[],arr=[];
 		for(let i=0;i<G.no_of_hands;i++){
 			
-			G.x=sum_hand(G.deck,G.players[i].hand);
+			G.x=sum_hand(G.players[i].hand);
 			G.sum_arr[i]= G.x;
 		}
 		let LowScore=min(G.sum_arr);
@@ -118,19 +147,18 @@ export const ShowCard = Game({
 	//	if(LowScorePlayer==playerid){
 
 			G.roundWinner=LowScorePlayer;
-	//	}
-		
-		
-		
+	//	}		
 	},
-	
+/*	flow:{
+		endTurnif:(G,ctx)=>{
+			if(G.drawCardDismiss=1){return true};
+		},
+	},*/
 	
   },
 
 
-  flow: {
-    
-    
+  flow: {   
 
 	  	    movesPerTurn: 2,
 

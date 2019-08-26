@@ -105,19 +105,19 @@ class Show_card_board extends React.Component {
 		for (var i =0;i<this.props.G.players[playerid].count;i++){
 			let n=this.props.G.players[playerid].hand[i];
 			let cpath="/cards/";
-			let srctag=cpath+this.props.G.deck[n]+".svg";
+			let srctag=cpath+n+".svg";
 			hand_deck.push(<img key={i} className='card' src={srctag}  onClick={() => this.onclick(n)}/>);
 		}
 		let open_deck=[];
 		let cpath="/cards/";
 
 		let n=this.props.G.open_deck[this.props.G.open_cards-1];
-		let srctag=cpath+this.props.G.deck[n]+".svg";
+		let srctag=cpath+n+".svg";
 
 		open_deck.push(<img key={"o1"} className='card' src={srctag}  onClick={() => this.onclick('c3')} />);
 		
 		let temp_arr=[];
-		let srctag_temp=cpath+this.props.G.deck[this.props.G.temp]+".svg";
+		let srctag_temp=cpath+this.props.G.temp+".svg";
 		temp_arr.push(<img key={"temp"} className='card' src={srctag_temp}   />);
 
 		let show_button=[];

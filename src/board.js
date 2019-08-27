@@ -3,6 +3,8 @@ import './cards.js';
 import PropTypes from 'prop-types';
 import { API_PORT } from './constants';
 import request from 'superagent';
+import Status from './components/status/status';
+
 
 
 
@@ -74,12 +76,15 @@ class Show_card_board extends React.Component {
 		let temp_card=this.props.G.temp;
 		if(this.isActive(id)){
 			if(id=="c1" )
-				if(temp_card != 52)
-				this.props.moves.drawCard(this.props.playerID);
-			
+				if(temp_card != 52){
+					this.props.moves.drawCard(this.props.playerID);
+					this.props.events.endTurn();	
+				}
 			if(id=="c3")
-				if(temp_card != 52)
-				this.props.moves.getOpencard(this.props.playerID);
+				if(temp_card != 52){
+					this.props.moves.getOpencard(this.props.playerID);
+					this.props.events.endTurn();
+				}
 			if(id!="c3" && id!="c1" && id!="s1"){
 				if(temp_card == 52)
 				this.props.moves.playCard(id,this.props.playerID);
@@ -96,7 +101,16 @@ class Show_card_board extends React.Component {
 
 	render(){
 		
-		
+		let active = false;
+		let current = false;
+	
+		if (this.props.ctx.actionPlayers.includes(parseInt(this.props.playerID)) || this.props.ctx.actionPlayers.includes(this.props.playerID)) {
+		  active = true;
+		}
+	
+		if (this.props.playerID === this.props.ctx.currentPlayer) {
+		  current = true;
+		}
 		
 		let center_deck=[];
 		center_deck.push(<img key={"i1"} className='card' src='/cards/Red_Back.svg' onClick={() => this.onclick('c1')}/>);
@@ -152,7 +166,9 @@ class Show_card_board extends React.Component {
 <div>
 	{roundWinnerdoc}
 </div>
-
+<div className="status-bar">
+              <Status playerID={this.props.playerID} G={this.props.G} ctx={this.props.ctx} names={this.state.names} current={current} active={active}/>
+            </div>
  </div>
 		);
 		

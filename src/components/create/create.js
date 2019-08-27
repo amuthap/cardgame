@@ -126,8 +126,8 @@ class Create extends React.Component {
     if (!this.state.created) {
       createForm = (
         <div>
-          <p>Elevation of Privilege (EoP) is the easy way to get started and learn threat modeling. It is a card game that developers, architects or security experts can play.</p>
-          <p>To learn more about the game, navigate to the <Link to="/about">about page</Link>.</p>
+          <p>Show game is the simple card game that anyone can play. Make the total sum of your cards to lower and if you think you will be having the lowest sum than others press show button.</p>
+          <p><Link to="/about"></Link>.</p>
           <small className="text-muted">To start playing, select the number of players and enter their names.</small>
           <hr />
           <Form>
@@ -135,6 +135,7 @@ class Create extends React.Component {
               <Label for="players" sm={2}>Players</Label>
               <Col sm={10}>
                 <Input type="select" name="players" id="players" onChange={e => this.onPlayersUpdated(e)} value={this.state.players}>
+                <option>2</option>
                   <option>3</option>
                   <option>4</option>
                   <option>5</option>
@@ -153,18 +154,7 @@ class Create extends React.Component {
               </FormGroup>
             )}
             <hr />
-            <FormGroup row>
-              <Label for="model" sm={2}>Model</Label>
-              <Col sm={10}>
-                <Input type="file" name="model" id="model" onChange={this.readFile} />
-                <FormText color="muted">
-                  Select the JSON model produced by <a target="_blank" rel="noopener noreferrer" href="https://docs.threatdragon.org/">Threat Dragon</a>.
-                </FormText>
-                <FormText color="muted">
-                  Or download a <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/mike-goodwin/owasp-threat-dragon-demo/master/ThreatDragonModels/Demo%20Threat%20Model/Demo%20Threat%20Model.json">sample model</a> to try it out.
-                </FormText>
-              </Col>
-            </FormGroup>
+            
             <hr />
             <Button block size="lg" color="warning" disabled={this.state.creating || !this.isFormValid()} onClick={this.createGame}>Proceed</Button>
           </Form>
@@ -212,7 +202,7 @@ class Create extends React.Component {
                 <Logo />
               </div>
               <Card>
-                <CardHeader className="text-center">Elevation of Privilege</CardHeader>
+                <CardHeader className="text-center">SHOW - Card Game</CardHeader>
                 <CardBody>
                   {createForm}
                   {linkDisplay}

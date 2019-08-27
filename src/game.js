@@ -120,9 +120,9 @@ export const ShowCard = Game({
 	  if (val1 == val3){
 		G.drawCardDismiss = 1;
 	  }
-	  if (val1 == val3 && G.players[playerid].count == 0)
+	 /* if (val1 == val3 && G.players[playerid].count == 0)
 	  	G.endgame(G,playerid);
-	 
+	 */
 	},
 	
     getOpencard(G,ctx,playerid){
@@ -149,18 +149,17 @@ export const ShowCard = Game({
 			G.roundWinner=LowScorePlayer;
 	//	}		
 	},
-/*	flow:{
-		endTurnif:(G,ctx)=>{
-			if(G.drawCardDismiss=1){return true};
-		},
-	},*/
+
 	
   },
 
 
   flow: {   
-
-	  	    movesPerTurn: 2,
+	endTurnif:(G,ctx)=>{
+		
+		if(G.drawCardDismiss==1){return true};
+	},
+	//   movesPerTurn: 2,
 
   },
 });

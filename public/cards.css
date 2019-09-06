@@ -5,6 +5,8 @@ img.card {
 	border: 0;
 	vertical-align: initial;
 	box-sizing: initial;
+		display:inherit;
+
 }
 
 /*
